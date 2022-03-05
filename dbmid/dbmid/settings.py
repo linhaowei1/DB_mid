@@ -76,14 +76,9 @@ WSGI_APPLICATION = 'dbmid.wsgi.application'
 DATABASES = {
     # please create your own database.
     "default": {
-        "ENGINE": "django.db.backends.mysql",
-        "NAME": 'dbmid',
-        "HOST": "127.0.0.1",
-        "PORT": 3306,
-        "USER": 'root', 
-        "PASSWORD": 'password', 
+        'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'charset': 'utf8mb4',
+            'read_default_file': '/etc/my.cnf',
         },
     }
 }
