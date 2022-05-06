@@ -47,7 +47,11 @@
                                                     <div align="right">
                                                             <h4>
                                                             <a>
-                                                                <u>贴主：</u></a>
+                                                                {% if feedback %}
+                                                                <u>贴主：{{feedback.poster.sname}}</u></a>
+                                                                {% else %}
+                                                                <u>贴主：{{nickname}}</u></a>
+                                                                {% endif %}
                                                             </h4>
                                                     </div>
                                                     </div>
@@ -63,7 +67,7 @@
                                             <div class="form-group">
                                                 <label>帖子标题</label>
                                                 <textarea type="text" name="title" class="form-control"
-                                                aria-label="Default" placeholder="标题不能超过30字噢！" rows="1" {% if not allow_form_edit %} readonly="readonly"{% endif %}></textarea>
+                                                aria-label="Default" placeholder="标题不能超过30字噢！" rows="1" {% if not allow_form_edit %} readonly="readonly"{% endif %}>{% if feedback %}{{feedback.title}}{% endif %}</textarea>
                                                 <b><font>请文明理性发言，共同营造良好的网络环境！</font></b>
                                             </div>
 
@@ -84,13 +88,16 @@
                                                 <label for="aintro">反馈内容</label>
                                                 <textarea name="content" class="form-control" rows="6" placeholder=
                                                         "反馈内容不能为空~"{%if allow_form_edit == 0 %} disabled="disabled" {%endif%}
-                                                ></textarea>
+                                                >{% if feedback %}{{feedback.content}}{% endif %}</textarea>
                                             </div>
                                             <br/>
+
+                                            {% if allow_form_edit %}
                                             <div align="center">
                                                 <button type="submit" class="btn btn-primary btn-lg mb-4 mr-2"
                                                 value="directly_submit" name="post_type" onclick="return confirm('确认直接提交反馈？')">提交反馈</button>
-                                            </div>   
+                                            </div>  
+                                            {% endif %} 
                                         </form>
                                         <br>
                                         <hr>
