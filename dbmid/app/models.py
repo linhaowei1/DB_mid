@@ -21,16 +21,16 @@ class UserExtension(models.Model):
 
 class Organization(models.Model):
     organization_id = models.AutoField(primary_key=True)
-    oname = models.CharField("昵称", max_length=20, null=True, blank=True)
+    oname = models.CharField("昵称", max_length=20, null=True, blank=True, unique=True)
 
 class Student(UserExtension):
     sid = models.AutoField(primary_key=True)
-    sname = models.CharField("昵称", max_length=20, null=True, blank=True)
+    sname = models.CharField("昵称", max_length=20, null=True, blank=True, unique=True)
 
 class Teacher(UserExtension):
     tid = models.AutoField(primary_key=True)
     organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True)  # Organization that the teacher belongs to
-    tname = models.CharField("昵称", max_length=20, null=True, blank=True)
+    tname = models.CharField("昵称", max_length=20, null=True, blank=True, unique=True)
 
 class Feedback(models.Model):
     fid = models.AutoField(primary_key=True)
@@ -46,6 +46,7 @@ class Comment(models.Model):
     commenter = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Feedback, on_delete=models.CASCADE)    # Post that the comment belongs to
     content = models.TextField("内容", blank=False)
+    public_time = models.DateTimeField('创建时间', auto_now_add=True)
 
 
 # @receiver(post_save, sender=User)

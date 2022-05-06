@@ -10,12 +10,12 @@
                     <p style="color: rgb(66, 67, 68);"><i class="fa fa-calendar-o"></i>{{comment.time}}</p>
                 </div>
                 <div align="right">
-                    <img src={{ comment.ava }} width="24" height="24" alt="avatar">
-                        <a href='{{comment.URL}}'><u>{{comment.commentator_name}}</u></a>
+                    <img src="/media/avatar/person_default.jpg" width="24" height="24" alt="avatar">
+                        <u>{{comment.commenter}}</u>  <!-- 修改 -->
                 </div>
             </div>
-            {%if comment.text != ""%}
-            <textarea name="comment" class="form-control" disabled="disabled">{{comment.text}}</textarea>
+            {%if comment.content != ""%}
+            <textarea name="comment" class="form-control" disabled="disabled">{{comment.content}}</textarea>
             {%endif%}
             <hr>
         </div>
@@ -23,6 +23,7 @@
     </div>
     {%if commentable %}
     <form role="form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
         <div>
             <br>
             <br>
