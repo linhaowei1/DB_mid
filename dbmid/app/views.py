@@ -47,6 +47,15 @@ class ModifyFeedbackView(MyView):
         if fid is None:
             allow_form_edit = True
             commentable = False
+            org_list = {
+                org.oname:{
+                    'value'   : org.oname,
+                    'display' : org.oname,  # 前端呈现的使用量
+                    'disabled' : False,  # 是否禁止选择这个量
+                    'selected' : False   # 是否默认选中这个量
+                }
+                for org in Organization.objects.all()
+            }
         else:
             feedback = Feedback.objects.filter(fid=fid)
             # 找不到这条帖子
@@ -63,10 +72,11 @@ class ModifyFeedbackView(MyView):
         bar_display = get_bardisplay("贴子详情")
         # 创建一个feedback
         # fid = ?
+        student = get_student_or_teacher(request.user)[1]
         organization = Organization.objects.get(oname=request.POST['org'])
         feedback = Feedback.objects.create(
-            poster=request.user,
-            receiver=organization.user,
+            poster=student,
+            receiver=organization,
             title=request.POST['title'],
             content=request.POST['content'],
         )

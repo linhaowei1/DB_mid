@@ -18,7 +18,8 @@ def generate_student():
     # with open("student_testcase.csv", 'w') as f:
     #     writer = csv.writer(f)
     for i in range(100):
-        user = User.objects.create(username=usrname.name(), password="1234567890")
+        user = User.objects.create(username=usrname.name())
+        user.set_password('1234')
         user.save()
         s = Student.objects.create(user=user, sname=nickname.name(), gender=random.randint(0,1))
         s.save()
@@ -28,7 +29,8 @@ def generate_teacher():
     nickname = Faker('zh_CN')
     usrname = Faker()
     for i in range(10):
-        user = User.objects.create(username=usrname.name(), password="1234567890")
+        user = User.objects.create(username=usrname.name())
+        user.set_password('1234')
         user.save()
         org = random.sample([i for i in Organization.objects.all()], 1)[0]
         t = Teacher.objects.create(user=user,
