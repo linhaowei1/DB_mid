@@ -8,7 +8,7 @@ from django.db.models.signals import post_save
 # According to https://docs.djangoproject.com/zh-hans/4.0/topics/auth/customizing/#extending-the-existing-user-models
 class UserExtension(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='extension')
-    name = models.CharField("姓名", max_length=10)
+    name = models.CharField("姓名", max_length=10, null=True)
 
     class Gender(models.IntegerChoices):
         MALE = (0, "男")
@@ -33,6 +33,7 @@ class Teacher(UserExtension):
 
 
 class Post(models.Model):
+    post_id = models.AutoField(primary_key=True)
     poster = models.ForeignKey(Student, on_delete=models.CASCADE)
     receiver = models.ForeignKey(Organization, on_delete=models.CASCADE)  # Organization that receives the post
     title = models.CharField("标题", max_length=30, blank=False)
@@ -40,6 +41,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    comment_id = models.AutoField(primary_key=True)
     commenter = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)    # Post that the comment belongs to
     content = models.TextField("内容", blank=False)
