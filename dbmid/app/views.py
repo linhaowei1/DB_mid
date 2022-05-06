@@ -12,12 +12,26 @@ class MyView(LoginRequiredMixin, TemplateView):
 
 
 class IndexView(MyView):
-    template_name = 'app/index.html'
+    def get(self, request, *args, **kwargs):
+        bar_display = {
+            # "help_message": None,
+            "navbar_name": "我的主页",
+            "user_type": "student",
+            # "warn_code": None,
+            # "warn_message": None,
+        }
+        return render(request, 'app/index_.html', locals())
+    
     def post(self, request, *args, **kwargs):
+        print(request.POST)
         if 'logout' in request.POST:
             logout(request)
             return HttpResponseRedirect(reverse('app:login_view'))
 
+class LogoutView(TemplateView):
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        return HttpResponseRedirect(reverse('app:login_view'))
 
 class LoginView(TemplateView):
     template_name = 'app/login.html'
