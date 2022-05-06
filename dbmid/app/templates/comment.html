@@ -1,0 +1,49 @@
+<!--begin comment-->
+    <div id="comments_display" class="widget-header">
+        {%if  commentable == 1 or comments.len > 0 %}
+        <h4>评论区</h4>
+        {%endif%}
+        {%for comment in comments%}
+        <div class="form-group">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <p style="color: rgb(66, 67, 68);"><i class="fa fa-calendar-o"></i>{{comment.time}}</p>
+                </div>
+                <div align="right">
+                    <img src={{ comment.ava }} width="24" height="24" alt="avatar">
+                        <a href='{{comment.URL}}'><u>{{comment.commentator_name}}</u></a>
+                </div>
+            </div>
+            {%if comment.text != ""%}
+            <textarea name="comment" class="form-control" disabled="disabled">{{comment.text}}</textarea>
+            {%endif%}
+            <hr>
+        </div>
+        {% endfor %}
+    </div>
+    {%if commentable %}
+    <form role="form" method="POST" enctype="multipart/form-data">
+        <div>
+            <br>
+            <br>
+            <div class="form-group">
+                <textarea type="text" id="comment" name="comment"
+                          class="form-control"
+                          aria-label="Default" rows="3"
+                          placeholder="添加评论"></textarea>
+                <br>
+                <div>
+                    <div style="text-align:right;">
+                        <button type="submit"
+                                class="btn btn-primary btn-sm mb-4 mr-2"
+                                name="comment_submit" value="1">
+                            回复
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--end comment-->
+    {%endif%}
+    
