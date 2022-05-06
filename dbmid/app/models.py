@@ -29,7 +29,7 @@ class Student(UserExtension):
 
 class Teacher(UserExtension):
     tid = models.AutoField(primary_key=True)
-    organization = models.ForeignKey(Organization, on_delete=models.CASCADE)  # Organization that the teacher belongs to
+    organization = models.ForeignKey(Organization, on_delete=models.CASCADE, null=True)  # Organization that the teacher belongs to
     tname = models.CharField("昵称", max_length=20, null=True, blank=True)
 
 class Feedback(models.Model):
@@ -48,9 +48,9 @@ class Comment(models.Model):
     content = models.TextField("内容", blank=False)
 
 
-@receiver(post_save, sender=User)
-def create_user_extension(sender, instance, created, **kwargs):
-    if created:
-        UserExtension.objects.create(user=instance)
-    else:
-        instance.extension.save()
+# @receiver(post_save, sender=User)
+# def create_user_extension(sender, instance, created, **kwargs):
+#     if created:
+#         UserExtension.objects.create(user=instance)
+#     else:
+#         instance.extension.save()
