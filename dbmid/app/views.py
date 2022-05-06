@@ -4,6 +4,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from app.constant import *
 from django.views.generic import TemplateView
 from app.models import Feedback, Organization
 from app.utils import get_student_or_teacher, get_bardisplay, get_user_nickname
@@ -14,17 +15,24 @@ class MyView(LoginRequiredMixin, TemplateView):
 
 class IndexView(MyView):
     def get(self, request, *args, **kwargs):
+        user_type, person = get_student_or_teacher(request.user)
+        is_student = (user_type == UserType.STUDENT)
         bar_display = get_bardisplay("我的主页")
-        show_feedback = True
-
+        public_feedback = Feedback.objects.all()
+        if not is_student:
+            my_feedback = Feedback.objects.all().filter(
+                receiver=person.organization
+            )
+        else:
+            my_feedback = Feedback.objects.all().filter(
+                poster=person
+            )
         return render(request, 'app/index_.html', locals())
     
     def post(self, request, *args, **kwargs):
-        bar_display = get_bardisplay("我的主页")
-
         if 'logout' in request.POST:
             logout(request)
-            return HttpResponseRedirect(reverse('app:login_view'))
+            return HttpResponseRedirect(reverse('app:logout_view'))
 
 class LogoutView(TemplateView):
     def get(self, request, *args, **kwargs):
@@ -72,6 +80,10 @@ class ModifyFeedbackView(MyView):
         return render(request, 'app/modifyfeedback.html', locals())
 
     def post(self, request, *args, **kwargs):
+        if 'logout' in request.POST:
+            logout(request)
+            return HttpResponseRedirect(reverse('app:logout_view'))
+        
         nickname = get_user_nickname(request.user)
         bar_display = get_bardisplay("贴子详情")
         # 创建一个feedback

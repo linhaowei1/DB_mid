@@ -55,7 +55,9 @@
                                         <!-- <h1 class="display-4 my-4 mb-4">元培生活</h1> -->
                                         <h4 class="text-center mb-4">
                                             未命名反馈
+                                            {% if is_student %}
                                             <a href="/modifyFeedback"><i class="fa fa-plus-square" aria-hidden="true" style="color: #1b55e2;"></i></a>
+                                            {% endif %}
                                         </h4>
                                         <p style="text-indent:2em;">欢迎你来到这里。这是学生权益诉求的集中地，也是信息交流的便捷平台，在这里我们用共同关心搭建共同生活的家园。</p>
                                         <br />
@@ -75,11 +77,11 @@
                                             <div id="public-feedback" class="row">
                                                 {% for feedback in public_feedback %}
                                                     <div class="col-12 col-xl-6 col-lg-6 mb-xl-4 mb-4 ">
-                                                        <div class="b-skills" onclick="window.location.href = '/viewFeedback/{{feedback.id}}' ;">
+                                                        <div class="b-skills" onclick="window.location.href = '/modifyFeedback?fid={{feedback.fid}}' ;">
                                                             <div class="d-flex justify-content">
                                                                 <div>
                                                                     <h5>
-                                                                    <a href='/viewFeedback/{{feedback.id}}'>{{feedback.title}}</a>
+                                                                    <a href='/modifyFeedback?fid={{feedback.fid}}'>{{feedback.title}}</a>
                                                                     </h5>
                                                                 </div>
                                                                 <div class="ml-1">
@@ -162,21 +164,21 @@
                         <div id="myTabContent" class="tab-content">
                             <!-- 进行中 -->
                             <div class="tab-pane fade in active show" id="home" role="tabpanel">
-                                {% if undone_feedback %}
+                                {% if my_feedback %}
                                 <div class="bio-skill-box">
-                                    <div id="undone-feedback" class="row">
-                                        {% for feedback in undone_feedback %}
+                                    <div id="my-feedback" class="row">
+                                        {% for feedback in my_feedback %}
                                             <div class="col-12 col-xl-6 col-lg-12 mb-xl-4 mb-4 ">
                                                 <div class=" b-skills">
                                                     <div class="d-flex justify-content-between">
                                                         <div class="d-flex justify-content-start">
                                                             <h5>
-                                                                <a href='/viewFeedback/{{feedback.id}}'>{{feedback.title}}</a>
+                                                                <a href='/modifyFeedback?fid={{feedback.fid}}'>{{feedback.title}}</a>
                                                             </h5>
                                                         </div>
                                                         <div>
                                                             <div role="group" class="d-flex">
-                                                                <a href="/viewFeedback/{{feedback.id}}" data-toggle="tooltip" title="查看">
+                                                                <a href="/modifyFeedback?fid={{feedback.fid}}" data-toggle="tooltip" title="查看">
                                                                     <h5><i class="fa fa-eye"></i></h5>
                                                                 </a>
                                                             </div>
