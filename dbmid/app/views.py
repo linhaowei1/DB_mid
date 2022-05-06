@@ -34,3 +34,5 @@ class LoginView(TemplateView):
         else:
             return HttpResponse("Wrong username / password.")
 
+
+
