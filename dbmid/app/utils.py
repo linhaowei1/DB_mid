@@ -1,3 +1,4 @@
+from site import USER_BASE
 from app.constant import *
 
 def get_student_or_teacher(user):
@@ -23,3 +24,9 @@ def get_bardisplay(
         bar_display['warn_message'] = warn_message
     return bar_display
     
+def get_user_nickname(user):
+    type_, obj_ = get_student_or_teacher(user)
+    if type_ == UserType.TEACHER:
+        return obj_.tname
+    else:
+        return obj_.sname
