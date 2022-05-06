@@ -17,7 +17,7 @@ def generate_student():
     usrname = Faker()
     # with open("student_testcase.csv", 'w') as f:
     #     writer = csv.writer(f)
-    for i in range(100):
+    for i in range(10):
         user = User.objects.create(username=usrname.name())
         user.set_password('1234')
         user.save()
@@ -28,7 +28,7 @@ def generate_student():
 def generate_teacher():
     nickname = Faker('zh_CN')
     usrname = Faker()
-    for i in range(10):
+    for i in range(5):
         user = User.objects.create(username=usrname.name())
         user.set_password('1234')
         user.save()

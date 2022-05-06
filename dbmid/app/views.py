@@ -5,7 +5,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView
-from app.models import Feedback, Organization
+from app.models import Feedback, Organization, Comment
 from app.utils import get_student_or_teacher, get_bardisplay
 
 # Base class for all views (except for loginView) to enforce login
@@ -63,6 +63,8 @@ class ModifyFeedbackView(MyView):
                 return HttpResponseRedirect(
                     reverse('app:modifyfeedback_view') + '?warn_code=1'
                 )
+            assert len(feedback) == 1
+            comments = [comment for comment in Comment.objects.filter(post=feedback[0])]
             allow_form_edit = False
             commentable = True
 
