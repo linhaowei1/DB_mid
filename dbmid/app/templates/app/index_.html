@@ -55,7 +55,7 @@
                                         <!-- <h1 class="display-4 my-4 mb-4">元培生活</h1> -->
                                         <h4 class="text-center mb-4">
                                             未命名反馈
-                                            <a href="/modifyFeedback/"><i class="fa fa-plus-square" aria-hidden="true" style="color: #1b55e2;"></i></a>
+                                            <a href="/modifyFeedback"><i class="fa fa-plus-square" aria-hidden="true" style="color: #1b55e2;"></i></a>
                                         </h4>
                                         <p style="text-indent:2em;">欢迎你来到这里。这是学生权益诉求的集中地，也是信息交流的便捷平台，在这里我们用共同关心搭建共同生活的家园。</p>
                                         <br />
@@ -150,192 +150,14 @@
         </script>
         </div>
         <div class="row layout-top-spacing mt-0">
-            <!-- 审核界面 -->
-            {% if is_teacher %}
-            <div class="col-12 mb-4 layout-top-spacing">
-                <div class="bio layout-spacing ">
-                    <div class="widget-content widget-content-area mb-4">
-                        <h3>留言页面</h3>
-                            <ul id="myTab" class="nav nav-tabs nav-tabs-solid nav-justified">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#wait" data-toggle="tab">
-                                        <h5><i class="fa fa-envelope-o"></i> 与我有关</h5>
-                                    </a>
-                                </li>
-                            </ul>
-
-                            <div id="myTabContent" class="tab-content">
-                                <div class="tab-pane fade in active show" id="wait">
-                                    {% if my_wait_public %}
-                                        <div class="bio-skill-box">
-                                            <div id="undone-feedback" class="row">
-                                                {% for feedback in my_wait_public %}
-                                                    <div class="col-12 col-xl-6 col-lg-12 mb-xl-4 mb-4 ">
-                                                        <div class=" b-skills">
-                                                            <div class="d-flex justify-content-between">
-                                                                <div>
-                                                                    <h5>
-                                                                        <a href='/viewFeedback/{{feedback.id}}'>{{feedback.title}}</a>
-                                                                        {% if feedback.solve_status == 1 or feedback.solve_status == 3 %}
-                                                                        {% if feedback.read_status == 1 %}
-                                                                        <span class="badge badge-pill badge-danger"> {{feedback.get_read_status_display}} </span>
-                                                                        {% elif feedback.solve_status == 3%}
-                                                                        <span class="badge badge-pill badge-primary">{{feedback.get_read_status_display}} </span>
-                                                                        <span class="badge badge-pill badge-primary">---</span>
-                                                                        {% else %}
-                                                                        <span class="badge badge-pill badge-warning">{{feedback.get_read_status_display}} </span>
-                                                                        <span class="badge badge-pill badge-warning">{{feedback.get_solve_status_display}}</span>
-                                                                        {% endif %}
-                                                                   
-                                                                        {% else %}
-                                                                  
-                                                                        <span class="badge badge-pill 
-                                                                        {% if feedback.solve_status == 0 %}
-                                                                            badge-success">
-                                                                        {% else %}
-                                                                            badge-primary">
-                                                                        {% endif %}
-                                                                        {{feedback.get_solve_status_display}} </span>
-                                                                   
-                                                                        {% endif %}
-                                                                    </h5>
-                                                                </div>
-                                                                <div>
-                                                                    <a href="/viewFeedback/{{feedback.id}}" data-toggle="tooltip" title="查看">
-                                                                        <h5><i class="fa fa-eye"></i></h5>
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                    
-
-                                                            <p style="color: rgb(66, 67, 68);">
-                                                                <i class="fa fa-bookmark" style="width: 14px;"></i>
-                                                                <span class="ml-1">{{feedback.type.name}}</span>
-                                                            </p>
-
-                                                            <p style="color: rgb(66, 67, 68);">
-                                                                <i class="fa fa-share-alt" style="width: 14px;"></i>
-                                                                <span class="ml-1">反馈至 {{feedback.org.oname}}</span>
-                                                            </p>
-
-                                                            <p style="color: rgb(66, 67, 68);">
-                                                                <i class="fa fa-bell" style="width: 14px;"></i>
-                                                                <span class="ml-1">{{feedback.feedback_time}} 发出</span>
-                                                            </p>
-
-                                                            <p style="color: rgb(66, 67, 68); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; ">
-                                                                <i class="fa fa-envelope" style="width: 14px;"></i>
-                                                                <span class="ml-1">{{feedback.content}}</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <div style="margin-top: 40px; margin-bottom: -40px;">
-                                            <p style="text-align: center;">没有待审核的反馈.</p>
-                                            <br>
-                                        </div>
-                                    {% endif %}
-                                </div>
-                                <div class="tab-pane fade" id="process">
-                                    {% if my_process_feedback %}
-                                        <div class="bio-skill-box">
-                                            <div class="row">
-                                                {% for feedback in my_process_feedback %}
-                                                    <div class="col-12 col-xl-6 col-lg-12 mb-xl-4 mb-4 ">
-                                                        <div class=" b-skills">
-                                                            <div class="d-flex justify-content-between">
-                                                                <div>
-                                                                    <h5>
-                                                                        <a href='/viewFeedback/{{feedback.id}}'>{{feedback.title}}</a>
-                                                                        {% if feedback.solve_status == 1 or feedback.solve_status == 3 %}
-                                                                        {% if feedback.read_status == 1 %}
-                                                                        <span class="badge badge-pill badge-danger"> {{feedback.get_read_status_display}} </span>
-                                                                        {% elif feedback.solve_status == 3%}
-                                                                        <span class="badge badge-pill badge-primary">{{feedback.get_read_status_display}} </span>
-                                                                        <span class="badge badge-pill badge-primary">---</span>
-                                                                        {% else %}
-                                                                        <span class="badge badge-pill badge-warning">{{feedback.get_read_status_display}} </span>
-                                                                        <span class="badge badge-pill badge-warning">{{feedback.get_solve_status_display}}</span>
-                                                                        {% endif %}
-                                                                        {% else %}
-                                                                        <span class="badge badge-pill 
-                                                                        {% if feedback.solve_status == 0 %}
-                                                                            badge-success">
-                                                                        {% else %}
-                                                                            badge-primary">
-                                                                        {% endif %}
-                                                                        {{feedback.get_solve_status_display}} </span>
-                                                                        {% endif %}
-                                                                        {% if feedback.public_status == 0%}
-                                                                        <span class="badge badge-pill badge-success">
-                                                                        {{feedback.get_public_status_display}} </span>
-                                                                        {%endif%}
-                                                                        {%if feedback.public_status == 3%}
-                                                                        <span class="badge badge-pill badge-danger">
-                                                                            {{feedback.get_public_status_display}} </span>
-                                                                        {%endif%}
-                                                                    </h5>
-                                                                </div>
-                                                                <div>
-                                                                    <a href="/viewFeedback/{{feedback.id}}" data-toggle="tooltip" title="查看">
-                                                                        <h5><i class="fa fa-eye"></i></h5>
-                                                                    </a>
-                                                                </div>    
-                                                            </div>
-                                                            
-                                                            <p style="color: rgb(66, 67, 68);">
-                                                                <i class="fa fa-share-alt" style="width: 14px;"></i>
-                                                                <span class="ml-1">反馈至 {{feedback.org.oname}}</span>
-                                                            </p>
-
-                                                            <p style="color: rgb(66, 67, 68);">
-                                                                <i class="fa fa-bell" style="width: 14px;"></i>
-                                                                <span class="ml-1">{{feedback.public_time}} 公开</span>
-                                                            </p>
-
-                                                            <p style="color: rgb(66, 67, 68); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; ">
-                                                                <i class="fa fa-envelope" style="width: 14px;"></i>
-                                                                <span class="ml-1">{{feedback.content}}</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
-                                            </div>
-                                        </div>
-                                    {% else %}
-                                        <div style="margin-top: 40px; margin-bottom: -40px;">
-                                            <p style="text-align: center;">目前没有公开的反馈.</p>
-                                            <br>
-                                        </div>
-                                    {% endif %}
-
-                                </div>
-                            </div>
-                    </div>
-                </div>                
-            </div>
-            {% endif %}
             <!-- 反馈记录 -->
-            {% if show_feedback %}
             <div class="col-12">
                 <div class="bio layout-spacing mb-4">
                     <div class="widget-content widget-content-area">
                         <div>
-                            <h3>我的反馈</h3>
+                            <h3>我的帖子</h3>
                         </div>
-                       
-                        <ul id="myTab" class="nav nav-tabs nav-tabs-solid nav-justified" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#home" role="tab" data-toggle="tab">
-                                    <h5><i class="fa fa-envelope-o"></i> 进行中</h5>
-                                </a>
-                            </li>
 
-
-                        </ul>
 
                         <div id="myTabContent" class="tab-content">
                             <!-- 进行中 -->
@@ -392,7 +214,6 @@
                     </div>
                 </div>
             </div>
-            {% endif %}
         </div>
     </div>
 

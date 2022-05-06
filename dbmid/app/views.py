@@ -5,24 +5,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views.generic import TemplateView
-from app.models import Feedback
-import os
-def get_bardisplay(
-    navbar_name,
-    user_type="student",
-    warn_code=None,
-    warn_message=None,
+from app.models import Feedback, Organization
+from app.utils import get_student_or_teacher, get_bardisplay
 
-):
-    bar_display = {
-        "navbar_name": navbar_name,
-        "user_type": user_type,    
-    }
-    if warn_code:
-        bar_display['warn_code'] = warn_code
-        bar_display['warn_message'] = warn_message
-    return bar_display
-    
 # Base class for all views (except for loginView) to enforce login
 class MyView(LoginRequiredMixin, TemplateView):
     login_url = 'login/'
@@ -78,8 +63,15 @@ class ModifyFeedbackView(MyView):
         bar_display = get_bardisplay("贴子详情")
         # 创建一个feedback
         # fid = ?
+        organization = Organization.objects.get(oname=request.POST['org'])
+        feedback = Feedback.objects.create(
+            poster=request.user,
+            receiver=organization.user,
+            title=request.POST['title'],
+            content=request.POST['content'],
+        )
         return HttpResponseRedirect(
-            reverse('app:modifyfeedback_view') + '?warn_code=2'
+            reverse('app:modifyfeedback_view') + f'?fid={feedback.fid}' + '&warn_code=2'
         )
 
 class LoginView(TemplateView):
