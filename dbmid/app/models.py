@@ -21,6 +21,8 @@ class UserExtension(models.Model):
 class Organization(models.Model):
     organization_id = models.AutoField(primary_key=True)
     oname = models.CharField("昵称", max_length=20, null=True, blank=True, unique=True)
+    class Meta:
+        indexes = [models.Index(fields=['oname'])]
 
 class Student(UserExtension):
     sid = models.AutoField(primary_key=True)
@@ -38,6 +40,8 @@ class Feedback(models.Model):
     title = models.CharField("标题", max_length=30, blank=False)
     content = models.TextField("内容", blank=False)
     public_time = models.DateTimeField('创建时间', auto_now_add=True)
+    class Meta:
+        indexes = [models.Index(fields=['fid', 'poster', 'receiver'])]
 
 
 class Comment(models.Model):
@@ -46,6 +50,8 @@ class Comment(models.Model):
     post = models.ForeignKey(Feedback, on_delete=models.CASCADE)    # Post that the comment belongs to
     content = models.TextField("内容", blank=False)
     public_time = models.DateTimeField('创建时间', auto_now_add=True)
+    class Meta:
+        indexes = [models.Index(fields=['post'])]
 
 
 # @receiver(post_save, sender=User)
