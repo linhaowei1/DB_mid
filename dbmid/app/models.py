@@ -18,7 +18,6 @@ class UserExtension(models.Model):
         "性别", choices=Gender.choices, null=True, blank=True
     )
 
-
 class Organization(models.Model):
     organization_id = models.AutoField(primary_key=True)
     oname = models.CharField("昵称", max_length=20, null=True, blank=True, unique=True)
