@@ -11,7 +11,11 @@
                 </div>
                 <div align="right">
                     <img src="/media/avatar/person_default.jpg" width="24" height="24" alt="avatar">
-                        <u>{{comment.commenter}}</u>  <!-- 修改 -->
+                    {%if comment.highlight%}
+                    <u style="background-color:cyan">{{comment.commenter}}（部门回复）</u>
+                    {%else%}
+                    <u>{{comment.commenter}}</u>
+                    {%endif%}
                 </div>
             </div>
             {%if comment.content != ""%}

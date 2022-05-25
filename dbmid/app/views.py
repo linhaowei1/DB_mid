@@ -76,9 +76,16 @@ class ModifyFeedbackView(MyView):
             org_list[feedback.receiver.oname]['selected'] = True
 
             # prepare local var for comments
+            def is_highlight(comment, feedback):
+                type, user = get_student_or_teacher(comment.commenter)
+                if type == UserType.TEACHER and user.organization_id == feedback.receiver.organization_id:
+                    print(1)
+                    return True
+                return False
             comments = [{'commenter':get_user_nickname(c.commenter),
                          'time': c.public_time,
-                         'content': c.content}
+                         'content': c.content,
+                         'highlight': is_highlight(c, feedback)}
                         for c in Comment.objects.filter(post=feedback)]
             allow_form_edit = False
             commentable = True
