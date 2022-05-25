@@ -19,6 +19,7 @@
 ## 运行
 
  修改`dbmid/dbmid/setting.py` 修改数据库配置，如下所示:
+ 
  （请将user和password修改为自己的数据库账户和密码）
 
 ```python
