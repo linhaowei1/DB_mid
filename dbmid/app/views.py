@@ -108,11 +108,13 @@ class ModifyFeedbackView(MyView):
             # fid = ?
             student = get_student_or_teacher(request.user)[1]
             organization = Organization.objects.get(oname=request.POST['org'])
+            content = request.POST['content']
+            title = request.POST['title']
             feedback = Feedback.objects.create(
                 poster=student,
                 receiver=organization,
-                title=request.POST['title'],
-                content=request.POST['content'],
+                title=title if title != "" else "N/A",
+                content=content if content != "" else "N/A",
             )
             return HttpResponseRedirect(
                 reverse('app:modifyfeedback_view') + f'?fid={feedback.fid}' + '&warn_code=2'
